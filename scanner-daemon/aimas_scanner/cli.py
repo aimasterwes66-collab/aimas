@@ -19,6 +19,8 @@ from aimas_scanner.interpreter import LLMInterpreter
 from aimas_scanner.watcher import IntentWatcher
 from aimas_scanner.mutation_log import MutationLog
 from aimas_scanner.systemd import SystemdGenerator
+from aimas_scanner.github_puller import GitHubPuller
+from aimas_scanner.updater import SelfUpdater
 
 
 def main() -> int:
@@ -41,6 +43,10 @@ def main() -> int:
     ap.add_argument("--dashboard", action="store_true", help="Show system dashboard")
     ap.add_argument("--user-unit", action="store_true", default=True, help="Generate user-level systemd unit (default)")
     ap.add_argument("--system-unit", action="store_true", help="Generate system-level systemd unit (requires sudo)")
+    ap.add_argument("--pull-repo", metavar="REPO", help="Pull intent docs from GitHub repo (owner/repo)")
+    ap.add_argument("--pull-path", metavar="PATH", default=".aimas", help="Path within repo to pull (default: .aimas)")
+    ap.add_argument("--pull-gist", metavar="GIST_ID", help="Pull intent docs from GitHub gist")
+    ap.add_argument("--update", action="store_true", help="Update tool-list JSONs from upstream GitHub repo")
 
     args = ap.parse_args()
 
@@ -70,6 +76,15 @@ def main() -> int:
 
     if args.dashboard:
         return cmd_dashboard()
+
+    if args.pull_repo:
+        return cmd_pull_repo(args.pull_repo, args.pull_path)
+
+    if args.pull_gist:
+        return cmd_pull_gist(args.pull_gist)
+
+    if args.update:
+        return cmd_update()
 
     ap.print_help()
     return 0
@@ -289,6 +304,44 @@ def cmd_dashboard() -> int:
     from aimas_scanner.dashboard import Dashboard
     dash = Dashboard()
     print(dash.render())
+    return 0
+
+
+def cmd_pull_repo(repo: str, path: str) -> int:
+    """Pull intent documents from a GitHub repo."""
+    puller = GitHubPuller()
+    downloaded = puller.pull_repo(repo, path)
+    if downloaded:
+        print(f"[OK] Pulled {len(downloaded)} intent file(s).")
+        # Auto-converge first downloaded file
+        if len(downloaded) == 1:
+            print(f"[INFO] Auto-converging: {downloaded[0]}")
+            return cmd_converge(downloaded[0], force=False, verbose=False)
+    else:
+        print("[WARN] No intent files downloaded.")
+    return 0
+
+
+def cmd_pull_gist(gist_id: str) -> int:
+    """Pull intent documents from a GitHub gist."""
+    puller = GitHubPuller()
+    downloaded = puller.pull_gist(gist_id)
+    if downloaded:
+        print(f"[OK] Pulled {len(downloaded)} intent file(s) from gist.")
+        if len(downloaded) == 1:
+            print(f"[INFO] Auto-converging: {downloaded[0]}")
+            return cmd_converge(downloaded[0], force=False, verbose=False)
+    else:
+        print("[WARN] No intent files downloaded from gist.")
+    return 0
+
+
+def cmd_update() -> int:
+    """Update tool-list JSONs from upstream GitHub repo."""
+    updater = SelfUpdater()
+    updated = updater.update()
+    if updated:
+        print(f"[OK] Updated {len(updated)} file(s).")
     return 0
 
 

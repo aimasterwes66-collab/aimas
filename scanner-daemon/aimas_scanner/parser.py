@@ -106,7 +106,7 @@ class IntentParser:
     def _parse_header_lists(self, body: str) -> list[dict]:
         caps = []
         # Find sections like "## Requires", "## Capabilities", etc.
-        for section in re.finditer(r"^##\s+(.+)\s*\n(.*?)(?=\n##\s+|\Z)", body, re.MULTILINE | re.DOTALL):
+        for section in re.finditer(r"^##\s+([^\n]+)\n(.*?)(?=\n##\s+|\Z)", body, re.MULTILINE | re.DOTALL):
             title = section.group(1).strip().lower()
             content = section.group(2)
             if title in ("requires", "capabilities", "tools", "goals"):
