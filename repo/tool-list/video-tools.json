@@ -1,0 +1,135 @@
+[
+  {
+    "name": "FFmpeg",
+    "description": "The universal command-line tool for video and audio processing, conversion, and streaming.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install ffmpeg -y", "dependencies": ["libavcodec-extra"]},
+      "brew": {"command": "brew install ffmpeg", "dependencies": []},
+      "nix": {"command": "nix-env -iA nixpkgs.ffmpeg", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "video",
+    "tags": ["media", "transcode", "cli"]
+  },
+  {
+    "name": "OBS Studio",
+    "description": "Open-source software for live streaming and screen recording.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install obs-studio -y", "dependencies": []},
+      "brew": {"command": "brew install obs", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "video",
+    "tags": ["streaming", "recording", "gui"]
+  },
+  {
+    "name": "Shotcut",
+    "description": "Free, open-source, cross-platform video editor.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install shotcut -y", "dependencies": []},
+      "brew": {"command": "brew install shotcut", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "video",
+    "tags": ["editor", "gui"]
+  },
+  {
+    "name": "Kdenlive",
+    "description": "Non-linear video editor based on the MLT framework.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install kdenlive -y", "dependencies": []},
+      "brew": {"command": "brew install kdenlive", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "video",
+    "tags": ["editor", "mlt", "gui"]
+  },
+  {
+    "name": "HandBrake",
+    "description": "Open-source video transcoder.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install handbrake -y", "dependencies": []},
+      "brew": {"command": "brew install handbrake", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "video",
+    "tags": ["transcode", "gui"]
+  },
+  {
+    "name": "Audacity",
+    "description": "Free, open-source, cross-platform audio software for multi-track recording and editing.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install audacity -y", "dependencies": []},
+      "brew": {"command": "brew install audacity", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "audio",
+    "tags": ["editor", "daw", "gui"]
+  },
+  {
+    "name": "SuperCollider",
+    "description": "Platform for audio synthesis and algorithmic composition.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install supercollider -y", "dependencies": []},
+      "brew": {"command": "brew install supercollider", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "audio",
+    "tags": ["synthesis", "coding", "music"]
+  },
+  {
+    "name": "LMMS",
+    "description": "Free cross-platform digital audio workstation.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install lmms -y", "dependencies": []},
+      "brew": {"command": "brew install lmms", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "audio",
+    "tags": ["daw", "gui"]
+  },
+  {
+    "name": "Blender",
+    "description": "Open-source 3D creation suite.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install blender -y", "dependencies": []},
+      "brew": {"command": "brew install blender", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "3d",
+    "tags": ["modeling", "animation", "rendering"]
+  },
+  {
+    "name": "GIMP",
+    "description": "GNU Image Manipulation Program.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install gimp -y", "dependencies": []},
+      "brew": {"command": "brew install gimp", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["editor", "gui"]
+  },
+  {
+    "name": "Inkscape",
+    "description": "Professional vector graphics editor.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install inkscape -y", "dependencies": []},
+      "brew": {"command": "brew install inkscape", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["vector", "svg", "gui"]
+  },
+  {
+    "name": "Krita",
+    "description": "Professional digital painting application.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install krita -y", "dependencies": []},
+      "brew": {"command": "brew install krita", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["painting", "gui"]
+  }
+]

@@ -1,0 +1,193 @@
+[
+  {
+    "name": "Docker",
+    "description": "Platform for developing, shipping, and running applications in containers.",
+    "install_methods": {
+      "script": {"command": "curl -fsSL https://get.docker.com | sh", "dependencies": []},
+      "apt": {"command": "sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "devops",
+    "tags": ["containers", "orchestration", "deployment"]
+  },
+  {
+    "name": "kubectl",
+    "description": "Kubernetes command-line tool for controlling clusters.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install kubectl -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "devops",
+    "tags": ["kubernetes", "k8s", "orchestration"]
+  },
+  {
+    "name": "Terraform",
+    "description": "Infrastructure as code tool for building, changing, and versioning infrastructure.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install terraform -y", "dependencies": []},
+      "brew": {"command": "brew install terraform", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "devops",
+    "tags": ["iac", "cloud", "provisioning"]
+  },
+  {
+    "name": "Ansible",
+    "description": "Agentless automation tool for configuration management and application deployment.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install ansible -y", "dependencies": ["python3"]},
+      "pipx": {"command": "pipx install ansible", "dependencies": ["pipx"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "devops",
+    "tags": ["automation", "config-management", "ssh"]
+  },
+  {
+    "name": "Git",
+    "description": "Distributed version control system.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install git -y", "dependencies": []},
+      "brew": {"command": "brew install git", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "vcs",
+    "tags": ["version-control", "scm"]
+  },
+  {
+    "name": "Neovim",
+    "description": "Hyperextensible Vim-based text editor.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install neovim -y", "dependencies": []},
+      "brew": {"command": "brew install neovim", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "editor",
+    "tags": ["vim", "text-editor", "modal"]
+  },
+  {
+    "name": "Zsh",
+    "description": "Powerful shell with interactive features.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install zsh -y", "dependencies": []},
+      "brew": {"command": "brew install zsh", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "shell",
+    "tags": ["shell", "terminal", "interactive"]
+  },
+  {
+    "name": "tmux",
+    "description": "Terminal multiplexer for managing multiple terminal sessions.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install tmux -y", "dependencies": []},
+      "brew": {"command": "brew install tmux", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "terminal",
+    "tags": ["multiplexer", "sessions", "remote"]
+  },
+  {
+    "name": "fzf",
+    "description": "General-purpose command-line fuzzy finder.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install fzf -y", "dependencies": []},
+      "brew": {"command": "brew install fzf", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "terminal",
+    "tags": ["fuzzy-finder", "search", "interactive"]
+  },
+  {
+    "name": "eza",
+    "description": "Modern replacement for ls with colors and git integration.",
+    "install_methods": {
+      "cargo": {"command": "cargo install eza", "dependencies": ["rust"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "terminal",
+    "tags": ["ls", "files", "rust"]
+  },
+  {
+    "name": "bat",
+    "description": "Cat clone with syntax highlighting and Git integration.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install bat -y", "dependencies": []},
+      "brew": {"command": "brew install bat", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "terminal",
+    "tags": ["cat", "syntax-highlighting"]
+  },
+  {
+    "name": "ripgrep",
+    "description": "Line-oriented search tool that recursively searches directories.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install ripgrep -y", "dependencies": []},
+      "brew": {"command": "brew install ripgrep", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "terminal",
+    "tags": ["grep", "search", "regex"]
+  },
+  {
+    "name": "fd",
+    "description": "Simple, fast and user-friendly alternative to find.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install fd-find -y && sudo ln -sf $(which fdfind) /usr/local/bin/fd", "dependencies": []},
+      "brew": {"command": "brew install fd", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "terminal",
+    "tags": ["find", "files", "search"]
+  },
+  {
+    "name": "Node.js (via nvm)",
+    "description": "JavaScript runtime built on Chrome's V8 engine.",
+    "install_methods": {
+      "script": {"command": "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "language",
+    "tags": ["javascript", "runtime", "npm"]
+  },
+  {
+    "name": "Go",
+    "description": "Statically typed, compiled programming language.",
+    "install_methods": {
+      "binary": {"command": "curl -LO https://go.dev/dl/go1.23.4.linux-amd64.tar.gz && sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.23.4.linux-amd64.tar.gz && rm -f go1.23.4.linux-amd64.tar.gz", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "language",
+    "tags": ["golang", "google", "compiled"]
+  },
+  {
+    "name": "Rust",
+    "description": "Systems programming language focused on safety and performance.",
+    "install_methods": {
+      "script": {"command": "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "language",
+    "tags": ["systems", "memory-safe", "cargo"]
+  },
+  {
+    "name": "Deno",
+    "description": "Secure JavaScript and TypeScript runtime built on Rust.",
+    "install_methods": {
+      "script": {"command": "curl -fsSL https://deno.land/install.sh | sh", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "language",
+    "tags": ["javascript", "typescript", "secure"]
+  },
+  {
+    "name": "Bun",
+    "description": "Fast all-in-one JavaScript runtime and toolkit.",
+    "install_methods": {
+      "script": {"command": "curl -fsSL https://bun.sh/install | bash", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "language",
+    "tags": ["javascript", "typescript", "fast"]
+  }
+]

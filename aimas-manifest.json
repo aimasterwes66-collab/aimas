@@ -1,0 +1,382 @@
+{
+  "manifest_version": "2.0.0",
+  "manifest_name": "aimas-bootstrap-manifest",
+  "description": "Canonical declarative manifest for the AIMAS self-assembling creative workstation.",
+  "shell_target": "bash",
+  "variables": {
+    "z": 10,
+    "venv_dir": "${HOME}/.local/share/aimas/venvs",
+    "pipx_home": "${HOME}/.local/pipx"
+  },
+  "metadata": {
+    "author": "aimas",
+    "license": "MIT",
+    "platforms": ["linux-amd64", "linux-arm64"],
+    "package_managers": ["apt", "uv", "pipx", "cargo", "go", "npm", "docker"],
+    "last_updated": "2026-05-11"
+  },
+  "categories": [
+    {
+      "id": "system_prep",
+      "name": "System Preparation",
+      "description": "Update and upgrade system packages before installing anything.",
+      "commands": [
+        "sudo apt-get update",
+        "sudo apt-get full-upgrade -y"
+      ]
+    },
+    {
+      "id": "base_apt",
+      "name": "Base System Packages",
+      "description": "Core utilities, editors, media tools, and system libraries installed via apt.",
+      "commands": [
+        "sudo apt-get install -y build-essential pkg-config make cmake git curl wget ca-certificates gnupg lsb-release software-properties-common unzip zip p7zip-full tar python3 python3-pip python3-venv python3-full pipx zsh fonts-powerline neovim vim nano less jq fzf tmux htop tree ncdu ffmpeg imagemagick bat cmatrix lolcat figlet cowsay nmap netcat-openbsd aircrack-ng ansible obs-studio shotcut kdenlive handbrake audacity gimp inkscape blender krita libreoffice ranger fd-find ripgrep libgl1 libglib2.0-0 libsm6 libxext6 libxrender-dev libgomp1 libvulkan1 linux-headers-generic systemd btop aria2 stow mpv",
+        "if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then sudo ln -sf $(command -v batcat) /usr/local/bin/bat || true; fi",
+        "if command -v fdfind >/dev/null 2>&1 && ! command -v fd >/dev/null 2>&1; then sudo ln -sf $(command -v fdfind) /usr/local/bin/fd || true; fi"
+      ]
+    },
+    {
+      "id": "uv_install",
+      "name": "UV (Python Sanity Layer)",
+      "description": "Installs uv, the modern Python package manager.",
+      "commands": [
+        "if ! command -v uv >/dev/null 2>&1; then curl -LsSf https://astral.sh/uv/install.sh | sh; fi",
+        "export PATH=\"${HOME}/.local/bin:${PATH}\""
+      ]
+    },
+    {
+      "id": "nvm_node",
+      "name": "NVM & Node.js LTS",
+      "description": "Installs Node Version Manager and the latest LTS Node.js.",
+      "commands": [
+        "export NVM_DIR=\"${HOME}/.nvm\"",
+        "if [ ! -d \"$NVM_DIR\" ]; then curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash; fi",
+        "[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"",
+        "nvm install --lts",
+        "nvm alias default 'lts/*'",
+        "nvm use default"
+      ]
+    },
+    {
+      "id": "rust",
+      "name": "Rustup & Cargo",
+      "description": "Installs the Rust toolchain.",
+      "commands": [
+        "if ! command -v cargo >/dev/null 2>&1; then curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y; fi",
+        "source \"${HOME}/.cargo/env\" 2>/dev/null || true"
+      ]
+    },
+    {
+      "id": "go",
+      "name": "Go",
+      "description": "Installs the Go programming language.",
+      "commands": [
+        "if ! command -v go >/dev/null 2>&1; then GO_VER=\"1.23.4\"; curl -LO \"https://go.dev/dl/go${GO_VER}.linux-amd64.tar.gz\"; sudo rm -rf /usr/local/go; sudo tar -C /usr/local -xzf \"go${GO_VER}.linux-amd64.tar.gz\"; rm -f \"go${GO_VER}.linux-amd64.tar.gz\"; export PATH=\"${PATH}:/usr/local/go/bin\"; fi"
+      ]
+    },
+    {
+      "id": "docker",
+      "name": "Docker Engine",
+      "description": "Installs official Docker CE with compose plugin.",
+      "commands": [
+        "sudo apt-get remove -y docker.io docker-compose docker-compose-v2 docker-doc podman-docker containerd runc 2>/dev/null || true",
+        "sudo install -m 0755 -d /etc/apt/keyrings",
+        "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg",
+        "echo \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \\"$VERSION_CODENAME\\") stable\" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null",
+        "sudo apt-get update",
+        "sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin",
+        "sudo usermod -aG docker \"$USER\" || true"
+      ]
+    },
+    {
+      "id": "kubectl",
+      "name": "kubectl",
+      "description": "Kubernetes CLI.",
+      "commands": [
+        "if ! command -v kubectl >/dev/null 2>&1; then curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg; echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list; sudo apt-get update; sudo apt-get install -y kubectl; fi"
+      ]
+    },
+    {
+      "id": "terraform",
+      "name": "Terraform",
+      "description": "Infrastructure-as-code tool.",
+      "commands": [
+        "if ! command -v terraform >/dev/null 2>&1; then curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/hashicorp.gpg || true; sudo apt-add-repository \"deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main\" -y; sudo apt-get update && sudo apt-get install -y terraform; fi"
+      ]
+    },
+    {
+      "id": "awscli",
+      "name": "AWS CLI",
+      "description": "Amazon Web Services command line interface.",
+      "commands": [
+        "if ! command -v aws >/dev/null 2>&1; then curl \"https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip\" -o \"awscliv2.zip\"; unzip -o awscliv2.zip; sudo ./aws/install; rm -rf aws awscliv2.zip; fi"
+      ]
+    },
+    {
+      "id": "ollama",
+      "name": "Ollama (Local LLM Runtime)",
+      "description": "Runs open-source LLMs locally. CPU-friendly.",
+      "commands": [
+        "if ! command -v ollama >/dev/null 2>&1; then curl -fsSL https://ollama.com/install.sh | sh; fi",
+        "if pidof systemd >/dev/null 2>&1; then sudo systemctl enable ollama; sudo systemctl start ollama; fi",
+        "ollama pull llama3.1:8b || true",
+        "ollama pull qwen2.5-coder:14b || true",
+        "ollama pull codellama:7b || true",
+        "ollama pull phi3:mini || true",
+        "ollama pull tinyllama || true",
+        "ollama pull mistral:7b || true"
+      ]
+    },
+    {
+      "id": "shell_stack",
+      "name": "Shell Enhancements",
+      "description": "Zsh, Oh-My-Zsh, Starship, Zoxide.",
+      "commands": [
+        "if [ \"$SHELL\" != \"$(command -v zsh)\" ]; then chsh -s \"$(command -v zsh)\" || true; fi",
+        "if [ ! -d \"${HOME}/.oh-my-zsh\" ]; then sh -c \"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\" \"\" --unattended || true; fi",
+        "if ! command -v starship >/dev/null 2>&1; then curl -sS https://starship.rs/install.sh | sh -s -- -y; fi",
+        "if ! command -v zoxide >/dev/null 2>&1; then curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash; fi"
+      ]
+    },
+    {
+      "id": "cargo_tools",
+      "name": "Rust-based Terminal Tools",
+      "description": "Modern replacements for ls, du, ps, etc.",
+      "commands": [
+        "cargo install eza 2>/dev/null || true",
+        "cargo install du-dust 2>/dev/null || true",
+        "cargo install procs 2>/dev/null || true",
+        "cargo install bottom 2>/dev/null || true",
+        "cargo install hyperfine 2>/dev/null || true",
+        "cargo install tokei 2>/dev/null || true",
+        "cargo install bandwhich 2>/dev/null || true",
+        "cargo install tre-command 2>/dev/null || true",
+        "cargo install tealdeer 2>/dev/null || true",
+        "cargo install bore-cli 2>/dev/null || true",
+        "cargo install xsv 2>/dev/null || true"
+      ]
+    },
+    {
+      "id": "go_tools",
+      "name": "Go-based Tools",
+      "description": "Lazygit, ghq, mods, gum, gdu, viddy, fd.",
+      "commands": [
+        "go install github.com/jesseduffield/lazygit@latest || true",
+        "go install github.com/x-motemen/ghq@latest || true",
+        "go install github.com/charmbracelet/mods@latest || true",
+        "go install github.com/charmbracelet/gum@latest || true",
+        "go install github.com/dundee/gdu/v5/cmd/gdu@latest || true",
+        "go install github.com/sachaos/viddy@latest || true",
+        "go install github.com/sharkdp/fd@latest || true"
+      ]
+    },
+    {
+      "id": "pipx_tools",
+      "name": "Isolated Python CLI Apps (pipx)",
+      "description": "Python tools installed in isolated environments.",
+      "commands": [
+        "pipx ensurepath 2>/dev/null || true",
+        "pipx install poetry || true",
+        "pipx install pdm || true",
+        "pipx install hatch || true",
+        "pipx install copier || true",
+        "pipx install httpie || true",
+        "pipx install glances || true",
+        "pipx install thefuck || true",
+        "pipx install tldr || true",
+        "pipx install yt-dlp || true",
+        "pipx install gallery-dl || true",
+        "pipx install pygments || true",
+        "pipx install cookiecutter || true",
+        "pipx install black || true",
+        "pipx install ruff || true",
+        "pipx install mypy || true"
+      ]
+    },
+    {
+      "id": "npm_globals",
+      "name": "Global npm Tools",
+      "description": "AI CLIs and dev tools installed globally via npm.",
+      "commands": [
+        "npm install -g @anthropic-ai/claude-code || true",
+        "npm install -g @google/gemini-cli || true",
+        "npm install -g vercel || true",
+        "npm install -g @vue/cli || true",
+        "npm install -g n8n || true",
+        "npm install -g @continuedev/cli || true"
+      ]
+    },
+    {
+      "id": "deno",
+      "name": "Deno",
+      "description": "Secure JavaScript/TypeScript runtime built on Rust.",
+      "commands": [
+        "if ! command -v deno >/dev/null 2>&1; then curl -fsSL https://deno.land/install.sh | sh; fi"
+      ]
+    },
+    {
+      "id": "bun",
+      "name": "Bun",
+      "description": "Fast JavaScript all-in-one toolkit.",
+      "commands": [
+        "if ! command -v bun >/dev/null 2>&1; then curl -fsSL https://bun.sh/install | bash; fi"
+      ]
+    },
+    {
+      "id": "sdkman",
+      "name": "SDKMAN!",
+      "description": "Java/JVM ecosystem version manager.",
+      "commands": [
+        "if [ ! -d \"${HOME}/.sdkman\" ]; then curl -s \"https://get.sdkman.io\" | bash; fi"
+      ]
+    },
+    {
+      "id": "venv_ai_ml",
+      "name": "Python AI/ML Libraries (uv venv)",
+      "description": "CPU-only PyTorch, TensorFlow, transformers, Jupyter, etc.",
+      "commands": [
+        "mkdir -p ${HOME}/.local/share/aimas/venvs",
+        "uv venv ${HOME}/.local/share/aimas/venvs/ai-ml",
+        "uv pip install --python ${HOME}/.local/share/aimas/venvs/ai-ml/bin/python torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu tensorflow-cpu transformers datasets accelerate sentence-transformers diffusers openai anthropic huggingface-hub jupyterlab ipython ipywidgets numpy pandas matplotlib seaborn scikit-learn scipy opencv-python Pillow rembg onnxruntime tqdm rich || true"
+      ]
+    },
+    {
+      "id": "venv_scrape",
+      "name": "Python Scraping Tools (uv venv)",
+      "description": "BeautifulSoup, Scrapy, Selenium, Playwright, etc.",
+      "commands": [
+        "uv venv ${HOME}/.local/share/aimas/venvs/scrape",
+        "uv pip install --python ${HOME}/.local/share/aimas/venvs/scrape/bin/python beautifulsoup4 scrapy selenium requests httpx aiohttp playwright yt-dlp gallery-dl newspaper3k trafilatura brozzler hakrawler waybackpack fake-useragent scrapy-fake-useragent || true"
+      ]
+    },
+    {
+      "id": "venv_ai_cli",
+      "name": "Python AI CLI Agents (uv venv)",
+      "description": "Aider, ShellGPT, Open Interpreter, Litellm, CrewAI, etc.",
+      "commands": [
+        "uv venv ${HOME}/.local/share/aimas/venvs/ai-cli",
+        "uv pip install --python ${HOME}/.local/share/aimas/venvs/ai-cli/bin/python gpt4all shell-gpt aider-chat open-interpreter litellm par-gpt tgpt chatblade llm llm-ollama private-gpt crewai agentops langchain langchain-community langchain-ollama langchain-openai semantic-kernel haystack-ai smol-dev fastchat || true"
+      ]
+    },
+    {
+      "id": "llama_cpp",
+      "name": "llama.cpp (CPU Build)",
+      "description": "Bare-metal local LLM inference engine.",
+      "commands": [
+        "if [ ! -d \"${HOME}/llama.cpp\" ]; then git clone https://github.com/ggerganov/llama.cpp.git \"${HOME}/llama.cpp\"; fi",
+        "cd \"${HOME}/llama.cpp\" && git pull || true && make -j$(nproc) || true"
+      ]
+    },
+    {
+      "id": "standalone_binaries",
+      "name": "Standalone Binaries",
+      "description": "rclone, yt-dlp binary, LocalAI Docker, Open WebUI Docker.",
+      "commands": [
+        "if ! command -v rclone >/dev/null 2>&1; then curl https://rclone.org/install.sh | sudo bash || true; fi",
+        "if ! command -v yt-dlp >/dev/null 2>&1; then sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp && sudo chmod a+rx /usr/local/bin/yt-dlp; fi",
+        "docker run -d --name localai -p 8080:8080 --restart always localai/localai:latest-aio-cpu || true",
+        "docker run -d -p 3000:8080 -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main || true"
+      ]
+    },
+    {
+      "id": "remote_ai_clis",
+      "name": "Remote AI CLIs",
+      "description": "OpenCode and other remote AI assistants.",
+      "commands": [
+        "curl -fsSL https://opencode.ai/install | bash 2>/dev/null || true"
+      ]
+    },
+    {
+      "id": "dotfiles_config",
+      "name": "Dotfiles & Shell Config",
+      "description": "Appends AIMAS configuration block to ~/.zshrc.",
+      "commands": [
+        "if ! grep -q \"# == AIMAS BOOTSTRAP ==\" \"${HOME}/.zshrc\" 2>/dev/null; then cat >> \"${HOME}/.zshrc\" << 'ZSHRC_BLOCK'\n\n# == AIMAS BOOTSTRAP ==\nexport PATH=\"${HOME}/.local/bin:${HOME}/.cargo/bin:/usr/local/go/bin:${HOME}/go/bin:${PATH}\"\nexport NVM_DIR=\"${HOME}/.nvm\"\n[ -s \"${NVM_DIR}/nvm.sh\" ] && \\. \"${NVM_DIR}/nvm.sh\"\nalias ls='eza --icons --group-directories-first 2>/dev/null || ls --color=auto'\nalias ll='eza -la --icons --group-directories-first 2>/dev/null || ls -la --color=auto'\nalias cat='bat --paging=never 2>/dev/null || cat'\nalias top='btm 2>/dev/null || htop 2>/dev/null || top'\nalias du='dust 2>/dev/null || du -sh'\nalias ps='procs 2>/dev/null || ps'\nalias find='fd 2>/dev/null || find'\nalias grep='rg 2>/dev/null || grep'\nalias cd='z 2>/dev/null || cd'\nalias ..='cd ..'\nalias ...='cd ../..'\nalias gs='git status'\nalias gp='git pull'\nalias gl='git log --oneline -10'\nalias dps='docker ps --format \"table {{.Names}}\\t{{.Status}}\\t{{.Ports}}\"'\nalias dcu='docker compose up -d'\nalias dcd='docker compose down'\nalias oll='ollama list'\nalias ollr='ollama run'\nalias ai-ml='source ${HOME}/.local/share/aimas/venvs/ai-ml/bin/activate'\nalias ai-cli='source ${HOME}/.local/share/aimas/venvs/ai-cli/bin/activate'\nalias scrape='source ${HOME}/.local/share/aimas/venvs/scrape/bin/activate'\neval \"$(zoxide init zsh 2>/dev/null || true)\"\neval \"$(starship init zsh 2>/dev/null || true)\"\n# == END AIMAS ==\nZSHRC_BLOCK; fi"
+      ]
+    }
+  ],
+  "all_commands_flat": [
+    "sudo apt-get update",
+    "sudo apt-get full-upgrade -y",
+    "sudo apt-get install -y build-essential pkg-config make cmake git curl wget ca-certificates gnupg lsb-release software-properties-common unzip zip p7zip-full tar python3 python3-pip python3-venv python3-full pipx zsh fonts-powerline neovim vim nano less jq fzf tmux htop tree ncdu ffmpeg imagemagick bat cmatrix lolcat figlet cowsay nmap netcat-openbsd aircrack-ng ansible obs-studio shotcut kdenlive handbrake audacity gimp inkscape blender krita libreoffice ranger fd-find ripgrep libgl1 libglib2.0-0 libsm6 libxext6 libxrender-dev libgomp1 libvulkan1 linux-headers-generic systemd btop aria2 stow mpv",
+    "curl -LsSf https://astral.sh/uv/install.sh | sh",
+    "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash",
+    "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y",
+    "curl -LO https://go.dev/dl/go1.23.4.linux-amd64.tar.gz && sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.23.4.linux-amd64.tar.gz && rm -f go1.23.4.linux-amd64.tar.gz",
+    "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg",
+    "sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin",
+    "curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg && sudo apt-get install -y kubectl",
+    "curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/hashicorp.gpg && sudo apt-get install -y terraform",
+    "curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip && unzip -o awscliv2.zip && sudo ./aws/install && rm -rf aws awscliv2.zip",
+    "curl -fsSL https://ollama.com/install.sh | sh",
+    "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\"",
+    "curl -sS https://starship.rs/install.sh | sh -s -- -y",
+    "curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash",
+    "cargo install eza du-dust procs bottom hyperfine tokei bandwhich tre-command tealdeer bore-cli xsv",
+    "go install github.com/jesseduffield/lazygit@latest github.com/x-motemen/ghq@latest github.com/charmbracelet/mods@latest github.com/charmbracelet/gum@latest github.com/dundee/gdu/v5/cmd/gdu@latest github.com/sachaos/viddy@latest github.com/sharkdp/fd@latest",
+    "pipx install poetry pdm hatch copier httpie glances thefuck tldr yt-dlp gallery-dl pygments cookiecutter black ruff mypy",
+    "npm install -g @anthropic-ai/claude-code @google/gemini-cli vercel @vue/cli n8n @continuedev/cli",
+    "curl -fsSL https://deno.land/install.sh | sh",
+    "curl -fsSL https://bun.sh/install | bash",
+    "curl -s https://get.sdkman.io | bash",
+    "uv venv ${HOME}/.local/share/aimas/venvs/ai-ml && uv pip install --python ${HOME}/.local/share/aimas/venvs/ai-ml/bin/python torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu tensorflow-cpu transformers datasets accelerate sentence-transformers diffusers openai anthropic huggingface-hub jupyterlab ipython ipywidgets numpy pandas matplotlib seaborn scikit-learn scipy opencv-python Pillow rembg onnxruntime tqdm rich",
+    "uv venv ${HOME}/.local/share/aimas/venvs/scrape && uv pip install --python ${HOME}/.local/share/aimas/venvs/scrape/bin/python beautifulsoup4 scrapy selenium requests httpx aiohttp playwright yt-dlp gallery-dl newspaper3k trafilatura brozzler hakrawler waybackpack fake-useragent scrapy-fake-useragent",
+    "uv venv ${HOME}/.local/share/aimas/venvs/ai-cli && uv pip install --python ${HOME}/.local/share/aimas/venvs/ai-cli/bin/python gpt4all shell-gpt aider-chat open-interpreter litellm par-gpt tgpt chatblade llm llm-ollama private-gpt crewai agentops langchain langchain-community langchain-ollama langchain-openai semantic-kernel haystack-ai smol-dev fastchat",
+    "git clone https://github.com/ggerganov/llama.cpp.git ${HOME}/llama.cpp && cd ${HOME}/llama.cpp && make -j$(nproc)",
+    "curl https://rclone.org/install.sh | sudo bash",
+    "sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp && sudo chmod a+rx /usr/local/bin/yt-dlp",
+    "docker run -d --name localai -p 8080:8080 --restart always localai/localai:latest-aio-cpu",
+    "docker run -d -p 3000:8080 -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main",
+    "curl -fsSL https://opencode.ai/install | bash"
+  ],
+  "god_mode_entries": [
+    {
+      "category": "Meta Orchestrators",
+      "items": [
+        {"name": "chezmoi", "cmd": "sh -c \"$(curl -fsLS get.chezmoi.io)\"", "desc": "Dotfile manager"},
+        {"name": "yadm", "cmd": "curl -Lks https://git.io/yadm-install | bash", "desc": "Yet Another Dotfile Manager"},
+        {"name": "home-manager", "cmd": "git clone https://github.com/nix-community/home-manager", "desc": "Nix-based home config"},
+        {"name": "stow", "cmd": "sudo apt install stow -y", "desc": "GNU symlink farm manager"},
+        {"name": "nix", "cmd": "curl -L https://nixos.org/nix/install | sh", "desc": "Purely functional package manager"},
+        {"name": "rustup", "cmd": "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh", "desc": "Rust toolchain installer"},
+        {"name": "sdkman", "cmd": "curl -s \"https://get.sdkman.io\" | bash", "desc": "JVM ecosystem version manager"}
+      ]
+    },
+    {
+      "category": "Local LLM Runners",
+      "items": [
+        {"name": "ollama", "cmd": "curl -fsSL https://ollama.com/install.sh | sh", "desc": "Gold standard local LLM runner"},
+        {"name": "llama.cpp", "cmd": "git clone https://github.com/ggerganov/llama.cpp.git && cd llama.cpp && make", "desc": "Bare-metal inference engine"},
+        {"name": "gpt4all", "cmd": "pipx install gpt4all", "desc": "Local chat with quantized models"},
+        {"name": "shell-gpt", "cmd": "pipx install shell-gpt", "desc": "Natural language shell assistant"},
+        {"name": "aider", "cmd": "pipx install aider-chat", "desc": "AI pair programmer"},
+        {"name": "litellm", "cmd": "pipx install litellm", "desc": "Unified LLM API gateway"},
+        {"name": "open-interpreter", "cmd": "pipx install open-interpreter", "desc": "Autonomous code execution agent"}
+      ]
+    },
+    {
+      "category": "Media & Scrape",
+      "items": [
+        {"name": "yt-dlp", "cmd": "sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp && sudo chmod a+rx /usr/local/bin/yt-dlp", "desc": "Universal media downloader"},
+        {"name": "mpv", "cmd": "sudo apt install mpv -y", "desc": "Minimal but powerful media player"},
+        {"name": "rclone", "cmd": "curl https://rclone.org/install.sh | sudo bash", "desc": "Sync files to cloud storage"},
+        {"name": "gallery-dl", "cmd": "pipx install gallery-dl", "desc": "Image/media scraper"},
+        {"name": "streamlink", "cmd": "pipx install streamlink", "desc": "Extract streams from sites"},
+        {"name": "asciinema", "cmd": "curl -sS https://webinstall.dev/asciinema | bash", "desc": "Terminal session recorder"},
+        {"name": "rembg", "cmd": "pipx install rembg", "desc": "Remove image backgrounds via CLI"}
+      ]
+    },
+    {
+      "category": "Networking & Tunnels",
+      "items": [
+        {"name": "tailscale", "cmd": "curl -fsSL https://tailscale.com/install.sh | sh", "desc": "Zero-config VPN mesh"},
+        {"name": "zerotier", "cmd": "curl -s https://install.zerotier.com | sudo bash", "desc": "SD-WAN overlay network"},
+        {"name": "cloudflared", "cmd": "curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /usr/local/bin/cloudflared && sudo chmod +x /usr/local/bin/cloudflared", "desc": "Cloudflare Tunnel daemon"},
+        {"name": "ngrok", "cmd": "curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo 'deb https://ngrok-agent.s3.amazonaws.com buster main' | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && sudo apt install ngrok -y", "desc": "Public URLs for localhost"},
+        {"name": "localtunnel", "cmd": "npm install -g localtunnel", "desc": "Expose localhost to the web"},
+        {"name": "chisel", "cmd": "curl -L https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_linux_amd64.gz | gunzip -c | sudo tee /usr/local/bin/chisel >/dev/null && sudo chmod +x /usr/local/bin/chisel", "desc": "TCP tunnel over HTTP"},
+        {"name": "tor", "cmd": "sudo apt install tor -y", "desc": "Anonymity network daemon"}
+      ]
+    }
+  ]
+}

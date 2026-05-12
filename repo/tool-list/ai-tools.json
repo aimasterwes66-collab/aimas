@@ -1,0 +1,125 @@
+[
+  {
+    "name": "Ollama",
+    "description": "Run LLMs locally with a clean CLI and API. CPU-friendly.",
+    "install_methods": {
+      "script": {"command": "curl -fsSL https://ollama.com/install.sh | sh", "dependencies": []},
+      "docker": {"command": "docker run -d -p 11434:11434 ollama/ollama", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "ai-llm",
+    "tags": ["llm", "local", "inference", "api"]
+  },
+  {
+    "name": "llama.cpp",
+    "description": "Bare-metal local LLM inference engine in C/C++.",
+    "install_methods": {
+      "source": {"command": "git clone https://github.com/ggerganov/llama.cpp.git && cd llama.cpp && make -j$(nproc)", "dependencies": ["build-essential", "git"]},
+      "docker": {"command": "docker run ghcr.io/ggerganov/llama.cpp:latest", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "ai-llm",
+    "tags": ["llm", "inference", "cpu", "c++"]
+  },
+  {
+    "name": "GPT4All",
+    "description": "Local chat with quantized models. Lightweight and privacy-friendly.",
+    "install_methods": {
+      "pipx": {"command": "pipx install gpt4all", "dependencies": ["pipx"]},
+      "pip": {"command": "pip install gpt4all", "dependencies": ["python3-pip"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "ai-llm",
+    "tags": ["llm", "chat", "cpu"]
+  },
+  {
+    "name": "shell-gpt",
+    "description": "Natural-language shell assistant powered by LLMs.",
+    "install_methods": {
+      "pipx": {"command": "pipx install shell-gpt", "dependencies": ["pipx"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "ai-cli",
+    "tags": ["llm", "shell", "assistant"]
+  },
+  {
+    "name": "aider",
+    "description": "AI pair programmer that works in your terminal and git repo.",
+    "install_methods": {
+      "pipx": {"command": "pipx install aider-chat", "dependencies": ["pipx"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "ai-cli",
+    "tags": ["coding", "git", "pair-programming"]
+  },
+  {
+    "name": "open-interpreter",
+    "description": "Autonomous coding agent that executes code on your machine.",
+    "install_methods": {
+      "pipx": {"command": "pipx install open-interpreter", "dependencies": ["pipx"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "ai-cli",
+    "tags": ["agent", "autonomous", "coding"]
+  },
+  {
+    "name": "litellm",
+    "description": "Unified API gateway for 100+ LLM providers.",
+    "install_methods": {
+      "pipx": {"command": "pipx install litellm", "dependencies": ["pipx"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "ai-infra",
+    "tags": ["api", "proxy", "gateway"]
+  },
+  {
+    "name": "LocalAI",
+    "description": "OpenAI-compatible local API server for running models.",
+    "install_methods": {
+      "docker": {"command": "docker run -p 8080:8080 localai/localai:latest-aio-cpu", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "ai-infra",
+    "tags": ["api", "server", "openai-compatible"]
+  },
+  {
+    "name": "Open WebUI",
+    "description": "Self-hosted web interface for local LLMs.",
+    "install_methods": {
+      "docker": {"command": "docker run -d -p 3000:8080 -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "ai-ui",
+    "tags": ["web-ui", "chat", "self-hosted"]
+  },
+  {
+    "name": "TensorFlow (CPU)",
+    "description": "End-to-end machine learning platform.",
+    "install_methods": {
+      "uv": {"command": "uv pip install tensorflow-cpu", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "ai-ml",
+    "tags": ["ml", "deep-learning", "google"]
+  },
+  {
+    "name": "PyTorch (CPU)",
+    "description": "Open-source machine learning framework.",
+    "install_methods": {
+      "uv": {"command": "uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "ai-ml",
+    "tags": ["ml", "deep-learning", "meta"]
+  },
+  {
+    "name": "Transformers",
+    "description": "State-of-the-art ML for text, vision, and audio by Hugging Face.",
+    "install_methods": {
+      "uv": {"command": "uv pip install transformers", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "ai-ml",
+    "tags": ["nlp", "huggingface", "models"]
+  }
+]

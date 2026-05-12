@@ -1,0 +1,479 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    aimas_user: "{{ ansible_user_id }}"
+  tasks:
+    - name: Update and upgrade system packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+      tags: [system]
+
+    - name: Install base system packages
+      apt:
+        name:
+          - build-essential
+          - pkg-config
+          - make
+          - cmake
+          - git
+          - curl
+          - wget
+          - ca-certificates
+          - gnupg
+          - lsb-release
+          - software-properties-common
+          - unzip
+          - zip
+          - p7zip-full
+          - tar
+          - python3
+          - python3-pip
+          - python3-venv
+          - python3-full
+          - pipx
+          - zsh
+          - fonts-powerline
+          - neovim
+          - vim
+          - nano
+          - less
+          - jq
+          - fzf
+          - tmux
+          - htop
+          - tree
+          - ncdu
+          - ffmpeg
+          - imagemagick
+          - bat
+          - cmatrix
+          - lolcat
+          - figlet
+          - cowsay
+          - nmap
+          - netcat-openbsd
+          - aircrack-ng
+          - ansible
+          - obs-studio
+          - shotcut
+          - kdenlive
+          - handbrake
+          - audacity
+          - gimp
+          - inkscape
+          - blender
+          - krita
+          - libreoffice
+          - ranger
+          - fd-find
+          - ripgrep
+          - libgl1
+          - libglib2.0-0
+          - libsm6
+          - libxext6
+          - libxrender-dev
+          - libgomp1
+          - libvulkan1
+          - linux-headers-generic
+          - systemd
+          - btop
+          - aria2
+          - stow
+          - mpv
+        state: present
+      tags: [base]
+
+    - name: Fix bat command name on Ubuntu/Debian
+      file:
+        src: "{{ '/usr/bin/batcat' if ansible_os_family == 'Debian' else '/usr/bin/bat' }}"
+        dest: /usr/local/bin/bat
+        state: link
+        force: yes
+      when: ansible_os_family == 'Debian'
+      tags: [base]
+
+    - name: Install Docker Engine
+      block:
+        - name: Remove old Docker packages
+          apt:
+            name:
+              - docker.io
+              - docker-compose
+              - docker-compose-v2
+              - docker-doc
+              - podman-docker
+              - containerd
+              - runc
+            state: absent
+
+        - name: Add Docker GPG key
+          apt_key:
+            url: https://download.docker.com/linux/ubuntu/gpg
+            keyring: /etc/apt/keyrings/docker.gpg
+            state: present
+
+        - name: Add Docker APT repository
+          apt_repository:
+            repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable"
+            filename: docker
+            state: present
+
+        - name: Install Docker CE
+          apt:
+            name:
+              - docker-ce
+              - docker-ce-cli
+              - containerd.io
+              - docker-buildx-plugin
+              - docker-compose-plugin
+            state: present
+            update_cache: yes
+
+        - name: Add user to docker group
+          user:
+            name: "{{ aimas_user }}"
+            groups: docker
+            append: yes
+      tags: [docker]
+
+    - name: Install kubectl
+      block:
+        - name: Add Kubernetes GPG key
+          apt_key:
+            url: https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key
+            keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+            state: present
+
+        - name: Add Kubernetes APT repository
+          apt_repository:
+            repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /"
+            filename: kubernetes
+            state: present
+
+        - name: Install kubectl package
+          apt:
+            name: kubectl
+            state: present
+            update_cache: yes
+      tags: [k8s]
+
+    - name: Install Terraform
+      block:
+        - name: Add HashiCorp GPG key
+          apt_key:
+            url: https://apt.releases.hashicorp.com/gpg
+            keyring: /etc/apt/keyrings/hashicorp.gpg
+            state: present
+
+        - name: Add HashiCorp APT repository
+          apt_repository:
+            repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_lsb.codename }} main"
+            filename: hashicorp
+            state: present
+
+        - name: Install Terraform package
+          apt:
+            name: terraform
+            state: present
+            update_cache: yes
+      tags: [iac]
+
+    - name: Install Ollama
+      shell: |
+        if ! command -v ollama >/dev/null 2>&1; then
+          curl -fsSL https://ollama.com/install.sh | sh
+        fi
+      args:
+        creates: /usr/local/bin/ollama
+      tags: [ai]
+
+    - name: Enable and start Ollama service
+      systemd:
+        name: ollama
+        enabled: yes
+        state: started
+      tags: [ai]
+
+    - name: Pull baseline Ollama models
+      shell: |
+        ollama pull llama3.1:8b || true
+        ollama pull qwen2.5-coder:14b || true
+        ollama pull codellama:7b || true
+        ollama pull phi3:mini || true
+        ollama pull tinyllama || true
+        ollama pull mistral:7b || true
+      args:
+        executable: /bin/bash
+      tags: [ai]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Install Oh My Zsh
+      shell: |
+        if [ ! -d "${HOME}/.oh-my-zsh" ]; then
+          sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        fi
+      args:
+        executable: /bin/bash
+      tags: [shell]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Install Starship prompt
+      shell: |
+        if ! command -v starship >/dev/null 2>&1; then
+          curl -sS https://starship.rs/install.sh | sh -s -- -y
+        fi
+      args:
+        executable: /bin/bash
+      tags: [shell]
+
+    - name: Install Zoxide
+      shell: |
+        if ! command -v zoxide >/dev/null 2>&1; then
+          curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+        fi
+      args:
+        executable: /bin/bash
+      tags: [shell]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Set Zsh as default shell
+      user:
+        name: "{{ aimas_user }}"
+        shell: /usr/bin/zsh
+      tags: [shell]
+
+    - name: Install Go
+      block:
+        - name: Download Go tarball
+          get_url:
+            url: "https://go.dev/dl/go1.23.4.linux-amd64.tar.gz"
+            dest: /tmp/go1.23.4.linux-amd64.tar.gz
+            mode: '0644'
+
+        - name: Remove old Go installation
+          file:
+            path: /usr/local/go
+            state: absent
+
+        - name: Extract Go
+          unarchive:
+            src: /tmp/go1.23.4.linux-amd64.tar.gz
+            dest: /usr/local
+            remote_src: yes
+      tags: [go]
+
+    - name: Install Rust
+      shell: |
+        if ! command -v cargo >/dev/null 2>&1; then
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        fi
+      args:
+        executable: /bin/bash
+        creates: "{{ ansible_env.HOME }}/.cargo/bin/cargo"
+      tags: [rust]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Install UV
+      shell: |
+        if ! command -v uv >/dev/null 2>&1; then
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+        fi
+      args:
+        executable: /bin/bash
+      tags: [python]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Ensure aimas venv directory exists
+      file:
+        path: "{{ ansible_env.HOME }}/.local/share/aimas/venvs"
+        state: directory
+        mode: '0755'
+      tags: [python]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Create AI/ML Python venv via uv
+      shell: |
+        export PATH="${HOME}/.local/bin:${PATH}"
+        uv venv "${HOME}/.local/share/aimas/venvs/ai-ml"
+        uv pip install --python "${HOME}/.local/share/aimas/venvs/ai-ml/bin/python" \
+          torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu \
+          tensorflow-cpu transformers datasets accelerate sentence-transformers diffusers \
+          openai anthropic huggingface-hub jupyterlab ipython ipywidgets numpy pandas \
+          matplotlib seaborn scikit-learn scipy opencv-python Pillow rembg onnxruntime \
+          tqdm rich || true
+      args:
+        executable: /bin/bash
+      tags: [python, ai]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Create Scraping Python venv via uv
+      shell: |
+        export PATH="${HOME}/.local/bin:${PATH}"
+        uv venv "${HOME}/.local/share/aimas/venvs/scrape"
+        uv pip install --python "${HOME}/.local/share/aimas/venvs/scrape/bin/python" \
+          beautifulsoup4 scrapy selenium requests httpx aiohttp playwright yt-dlp \
+          gallery-dl newspaper3k trafilatura brozzler hakrawler waybackpack \
+          fake-useragent scrapy-fake-useragent || true
+      args:
+        executable: /bin/bash
+      tags: [python, scrape]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Create AI CLI Python venv via uv
+      shell: |
+        export PATH="${HOME}/.local/bin:${PATH}"
+        uv venv "${HOME}/.local/share/aimas/venvs/ai-cli"
+        uv pip install --python "${HOME}/.local/share/aimas/venvs/ai-cli/bin/python" \
+          gpt4all shell-gpt aider-chat open-interpreter litellm par-gpt tgpt chatblade \
+          llm llm-ollama private-gpt crewai agentops langchain langchain-community \
+          langchain-ollama langchain-openai semantic-kernel haystack-ai smol-dev fastchat || true
+      args:
+        executable: /bin/bash
+      tags: [python, ai]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Install pipx-based Python CLIs
+      shell: |
+        pipx ensurepath 2>/dev/null || true
+        pipx install poetry 2>/dev/null || true
+        pipx install pdm 2>/dev/null || true
+        pipx install hatch 2>/dev/null || true
+        pipx install copier 2>/dev/null || true
+        pipx install httpie 2>/dev/null || true
+        pipx install glances 2>/dev/null || true
+        pipx install thefuck 2>/dev/null || true
+        pipx install tldr 2>/dev/null || true
+        pipx install yt-dlp 2>/dev/null || true
+        pipx install gallery-dl 2>/dev/null || true
+        pipx install pygments 2>/dev/null || true
+        pipx install cookiecutter 2>/dev/null || true
+        pipx install black 2>/dev/null || true
+        pipx install ruff 2>/dev/null || true
+        pipx install mypy 2>/dev/null || true
+      args:
+        executable: /bin/bash
+      tags: [python]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Install global npm tools
+      shell: |
+        npm install -g @anthropic-ai/claude-code || true
+        npm install -g @google/gemini-cli || true
+        npm install -g vercel || true
+        npm install -g @vue/cli || true
+        npm install -g n8n || true
+        npm install -g @continuedev/cli || true
+      args:
+        executable: /bin/bash
+      tags: [node]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Install Deno
+      shell: |
+        if ! command -v deno >/dev/null 2>&1; then
+          curl -fsSL https://deno.land/install.sh | sh
+        fi
+      args:
+        executable: /bin/bash
+      tags: [node]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Install Bun
+      shell: |
+        if ! command -v bun >/dev/null 2>&1; then
+          curl -fsSL https://bun.sh/install | bash
+        fi
+      args:
+        executable: /bin/bash
+      tags: [node]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Install SDKMAN!
+      shell: |
+        if [ ! -d "${HOME}/.sdkman" ]; then
+          curl -s "https://get.sdkman.io" | bash
+        fi
+      args:
+        executable: /bin/bash
+      tags: [java]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Install rclone
+      shell: |
+        if ! command -v rclone >/dev/null 2>&1; then
+          curl https://rclone.org/install.sh | sudo bash || true
+        fi
+      args:
+        executable: /bin/bash
+      tags: [storage]
+
+    - name: Install yt-dlp standalone binary
+      shell: |
+        if ! command -v yt-dlp >/dev/null 2>&1; then
+          sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+          sudo chmod a+rx /usr/local/bin/yt-dlp
+        fi
+      args:
+        executable: /bin/bash
+      tags: [media]
+
+    - name: Build llama.cpp from source
+      shell: |
+        if [ ! -d "${HOME}/llama.cpp" ]; then
+          git clone https://github.com/ggerganov/llama.cpp.git "${HOME}/llama.cpp"
+        fi
+        cd "${HOME}/llama.cpp" && git pull || true && make -j$(nproc) || true
+      args:
+        executable: /bin/bash
+      tags: [ai]
+      become: yes
+      become_user: "{{ aimas_user }}"
+
+    - name: Start LocalAI Docker container
+      docker_container:
+        name: localai
+        image: localai/localai:latest-aio-cpu
+        state: started
+        restart_policy: always
+        ports:
+          - "8080:8080"
+      tags: [ai, docker]
+
+    - name: Start Open WebUI Docker container
+      docker_container:
+        name: open-webui
+        image: ghcr.io/open-webui/open-webui:main
+        state: started
+        restart_policy: always
+        ports:
+          - "3000:8080"
+        volumes:
+          - open-webui:/app/backend/data
+      tags: [ai, docker]
+
+    - name: Install OpenCode
+      shell: |
+        if ! command -v opencode >/dev/null 2>&1; then
+          curl -fsSL https://opencode.ai/install | bash 2>/dev/null || true
+        fi
+      args:
+        executable: /bin/bash
+      tags: [ai]
+      become: yes
+      become_user: "{{ aimas_user }}"
