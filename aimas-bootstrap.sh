@@ -104,13 +104,19 @@ section "3. Installing NVM & Node.js LTS"
 if [ ! -d "$NVM_DIR" ]; then
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 fi
+# Source NVM in this non-interactive shell context
+export NVM_DIR="${HOME}/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-if has nvm; then
-  nvm install --lts
-  nvm alias default 'lts/*'
-  nvm use default
+
+if ! has node; then
+  if has nvm; then
+    # LTS resolution can fail in non-interactive shells; try explicit fallback
+    nvm install --lts 2>/dev/null || nvm install 20 2>/dev/null || nvm install 18 2>/dev/null || true
+    nvm alias default 'lts/*' 2>/dev/null || nvm alias default '20' 2>/dev/null || true
+    nvm use default 2>/dev/null || true
+  fi
 fi
-has node || warn "Node.js not available after NVM setup"
+has node || warn "Node.js not available after NVM setup (non-fatal)"
 has node && ok "Node.js ready: $(node --version)"
 
 # ---------------------------------------------------------------------------

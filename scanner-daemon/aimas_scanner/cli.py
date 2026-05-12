@@ -15,6 +15,8 @@ from aimas_scanner import __version__
 from aimas_scanner.parser import IntentParser
 from aimas_scanner.scanner import SystemScanner
 from aimas_scanner.actuator import Actuator
+from aimas_scanner.interpreter import LLMInterpreter
+from aimas_scanner.watcher import IntentWatcher
 
 
 def main() -> int:
@@ -28,6 +30,9 @@ def main() -> int:
     ap.add_argument("--status", action="store_true", help="Print current system state graph")
     ap.add_argument("--force-converge", action="store_true", help="Skip hash check and re-converge")
     ap.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
+    ap.add_argument("--daemon", action="store_true", help="Run continuous file watcher daemon")
+    ap.add_argument("--watch", metavar="DIR", default="~/.config/aimas/intent", help="Directory to watch (with --daemon)")
+    ap.add_argument("--interpret", metavar="PATH", help="Use LLM to interpret free-form intent text")
 
     args = ap.parse_args()
 
@@ -39,6 +44,12 @@ def main() -> int:
 
     if args.converge:
         return cmd_converge(args.converge, args.force_converge, args.verbose)
+
+    if args.interpret:
+        return cmd_interpret(args.interpret, args.verbose)
+
+    if args.daemon:
+        return cmd_daemon(args.watch, args.verbose)
 
     ap.print_help()
     return 0
@@ -161,6 +172,51 @@ def cmd_converge(path: str, force: bool, verbose: bool) -> int:
     else:
         print("[WARN] Convergence completed with errors.")
         return 1
+
+
+def cmd_interpret(path: str, verbose: bool) -> int:
+    """Use LLM to interpret free-form intent and print structured capabilities."""
+    if not os.path.isfile(path):
+        print(f"[ERR] File not found: {path}", file=sys.stderr)
+        return 1
+
+    with open(path, "r", encoding="utf-8") as f:
+        text = f.read()
+
+    interpreter = LLMInterpreter()
+    print("═" * 60)
+    print("  LLM SEMANTIC INTERPRETATION")
+    print("═" * 60)
+    print(f"  LLM available: {interpreter.available}")
+    print(f"  Model: {interpreter.model}")
+    print("")
+
+    capabilities = interpreter.interpret(text)
+    print(f"  Extracted {len(capabilities)} capability groups:")
+    for cap in capabilities:
+        print(f"\n    {cap['capability']} (confidence: {cap['confidence']:.2f})")
+        for tool in cap.get("tools", []):
+            req = "required" if tool.get("required") else "optional"
+            ver = tool.get("version", "")
+            ver_str = f" ({ver})" if ver else ""
+            print(f"      - {tool['name']}{ver_str} [{req}]")
+    print("═" * 60)
+    return 0
+
+
+def cmd_daemon(watch_dir: str, verbose: bool) -> int:
+    """Run continuous file watcher that converges on intent changes."""
+    watch_dir = os.path.expanduser(watch_dir)
+    os.makedirs(watch_dir, exist_ok=True)
+
+    def on_change(path: str) -> None:
+        print(f"\n[DAEMON] Converging: {path}")
+        cmd_converge(path, force=False, verbose=verbose)
+        print("[DAEMON] Waiting for next change...\n")
+
+    watcher = IntentWatcher([watch_dir], on_change, poll_interval=5.0)
+    watcher.start()
+    return 0
 
 
 if __name__ == "__main__":
