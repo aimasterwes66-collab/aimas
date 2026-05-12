@@ -13,6 +13,8 @@ import subprocess
 import json
 from typing import Any
 
+from aimas_scanner.mutation_log import MutationLog
+
 
 # Static registry: capability name → preferred install method and command
 # In Phase 2 this will be dynamically populated from tool-list/*.json
@@ -121,6 +123,7 @@ class Actuator:
         self.state = state
         self.dry_run = dry_run
         self.plan: list[dict] = []
+        self.mlog = MutationLog()
 
     def build_plan(self, intent: dict[str, Any]) -> list[dict]:
         """Generate an ordered list of install steps from parsed intent."""
@@ -204,6 +207,14 @@ class Actuator:
                     )
                 if result.returncode == 0:
                     print("OK")
+                    # Record mutation for rollback support
+                    reverse_cmd = self._generate_reverse(step)
+                    self.mlog.record(
+                        operation=step["action"],
+                        target=step["target"],
+                        command=step["command"],
+                        reverse=reverse_cmd,
+                    )
                 else:
                     print(f"FAIL (exit {result.returncode})")
                     if not step.get("required", True):
@@ -218,6 +229,22 @@ class Actuator:
                 all_ok = False
 
         return all_ok
+
+    def _generate_reverse(self, step: dict) -> str:
+        """Generate a best-effort reverse command for rollback."""
+        method = step.get("method", "")
+        target = step.get("target", "")
+        if method == "apt":
+            return f"sudo apt remove {target} -y || true"
+        if method == "pipx":
+            return f"pipx uninstall {target} || true"
+        if method == "cargo":
+            return f"cargo uninstall {target} || true"
+        if method == "go":
+            return f"rm -f $(go env GOPATH)/bin/{target} || true"
+        if method == "docker":
+            return f"docker stop {target} && docker rm {target} || true"
+        return f"# Manual rollback required for {target} (method: {method})"
 
     def _fuzzy_lookup(self, name: str) -> dict | None:
         """Simple fuzzy matching for capability names."""

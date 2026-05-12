@@ -17,6 +17,8 @@ from aimas_scanner.scanner import SystemScanner
 from aimas_scanner.actuator import Actuator
 from aimas_scanner.interpreter import LLMInterpreter
 from aimas_scanner.watcher import IntentWatcher
+from aimas_scanner.mutation_log import MutationLog
+from aimas_scanner.systemd import SystemdGenerator
 
 
 def main() -> int:
@@ -33,6 +35,12 @@ def main() -> int:
     ap.add_argument("--daemon", action="store_true", help="Run continuous file watcher daemon")
     ap.add_argument("--watch", metavar="DIR", default="~/.config/aimas/intent", help="Directory to watch (with --daemon)")
     ap.add_argument("--interpret", metavar="PATH", help="Use LLM to interpret free-form intent text")
+    ap.add_argument("--rollback", type=int, metavar="N", default=0, help="Rollback last N mutations")
+    ap.add_argument("--log", action="store_true", help="Show mutation log report")
+    ap.add_argument("--generate-systemd", action="store_true", help="Generate systemd unit files")
+    ap.add_argument("--dashboard", action="store_true", help="Show system dashboard")
+    ap.add_argument("--user-unit", action="store_true", default=True, help="Generate user-level systemd unit (default)")
+    ap.add_argument("--system-unit", action="store_true", help="Generate system-level systemd unit (requires sudo)")
 
     args = ap.parse_args()
 
@@ -50,6 +58,18 @@ def main() -> int:
 
     if args.daemon:
         return cmd_daemon(args.watch, args.verbose)
+
+    if args.rollback > 0:
+        return cmd_rollback(args.rollback, dry_run=False)
+
+    if args.log:
+        return cmd_log()
+
+    if args.generate_systemd:
+        return cmd_systemd(user_mode=not args.system_unit)
+
+    if args.dashboard:
+        return cmd_dashboard()
 
     ap.print_help()
     return 0
@@ -216,6 +236,59 @@ def cmd_daemon(watch_dir: str, verbose: bool) -> int:
 
     watcher = IntentWatcher([watch_dir], on_change, poll_interval=5.0)
     watcher.start()
+    return 0
+
+
+def cmd_rollback(count: int, dry_run: bool = False) -> int:
+    """Rollback the last N mutations."""
+    mlog = MutationLog()
+    print("═" * 60)
+    print("  MUTATION ROLLBACK")
+    print("═" * 60)
+    rolled = mlog.rollback_last(count=count, dry_run=dry_run)
+    print("")
+    if rolled:
+        print(f"[OK] Rolled back {len(rolled)} mutation(s).")
+    else:
+        print("[INFO] No mutations were rolled back.")
+    print("═" * 60)
+    return 0
+
+
+def cmd_log() -> int:
+    """Display mutation log report."""
+    mlog = MutationLog()
+    report = mlog.generate_report()
+    print("═" * 60)
+    print("  MUTATION LOG REPORT")
+    print("═" * 60)
+    print(f"  Log file:        {report['log_file']}")
+    print(f"  Total mutations: {report['total_mutations']}")
+    print(f"  Unique targets:  {report['unique_targets']}")
+    print(f"  Last mutation:   {report['last_mutation'] or 'N/A'}")
+    print("")
+    if report["operations"]:
+        print("  Operations:")
+        for op, count in report["operations"].items():
+            print(f"    {op:20s} {count}")
+    else:
+        print("  No mutations recorded yet.")
+    print("═" * 60)
+    return 0
+
+
+def cmd_systemd(user_mode: bool = True) -> int:
+    """Generate systemd unit files for the scanner daemon."""
+    gen = SystemdGenerator(user_mode=user_mode)
+    gen.install()
+    return 0
+
+
+def cmd_dashboard() -> int:
+    """Show the AIMAS system dashboard."""
+    from aimas_scanner.dashboard import Dashboard
+    dash = Dashboard()
+    print(dash.render())
     return 0
 
 
