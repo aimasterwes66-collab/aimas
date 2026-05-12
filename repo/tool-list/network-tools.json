@@ -1,0 +1,162 @@
+[
+  {
+    "name": "nmap",
+    "description": "Network discovery and security auditing utility.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install nmap -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "network",
+    "tags": ["scanner", "recon", "security"]
+  },
+  {
+    "name": "Wireshark",
+    "description": "World's foremost network protocol analyzer.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install wireshark -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "network",
+    "tags": ["packet-capture", "protocol", "analysis"]
+  },
+  {
+    "name": "tcpdump",
+    "description": "Powerful command-line packet analyzer.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install tcpdump -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "network",
+    "tags": ["packet-capture", "cli", "analysis"]
+  },
+  {
+    "name": "iperf3",
+    "description": "Tool for active measurements of the maximum achievable bandwidth on IP networks.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install iperf3 -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "network",
+    "tags": ["bandwidth", "testing", "cli"]
+  },
+  {
+    "name": "netcat",
+    "description": "Networking utility for reading from and writing to network connections.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install netcat-openbsd -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "network",
+    "tags": ["swiss-army-knife", "cli", "tcp"]
+  },
+  {
+    "name": "mtr",
+    "description": "Network diagnostic tool combining ping and traceroute.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install mtr -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "network",
+    "tags": ["traceroute", "ping", "diagnostic"]
+  },
+  {
+    "name": "whois",
+    "description": "Client for the whois directory service.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install whois -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "network",
+    "tags": ["domain", "lookup", "cli"]
+  },
+  {
+    "name": "dig",
+    "description": "DNS lookup utility for querying DNS name servers.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install dnsutils -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "network",
+    "tags": ["dns", "lookup", "cli"]
+  },
+  {
+    "name": "curl",
+    "description": "Command-line tool for transferring data with URLs.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install curl -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "network",
+    "tags": ["http", "client", "cli"]
+  },
+  {
+    "name": "aria2",
+    "description": "Lightweight multi-protocol and multi-source command-line download utility.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install aria2 -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "network",
+    "tags": ["download", "torrent", "metalink"]
+  },
+  {
+    "name": "bandwhich",
+    "description": "Terminal bandwidth utilization tool showing current network usage by process.",
+    "install_methods": {
+      "cargo": {"command": "cargo install bandwhich", "dependencies": ["rust"]}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "network",
+    "tags": ["bandwidth", "monitor", "tui"]
+  },
+  {
+    "name": "bmon",
+    "description": "Portable bandwidth monitor and rate estimator.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install bmon -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "network",
+    "tags": ["bandwidth", "monitor", "tui"]
+  },
+  {
+    "name": "nload",
+    "description": "Console application which monitors network traffic and bandwidth usage in real time.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install nload -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "network",
+    "tags": ["bandwidth", "monitor", "cli"]
+  },
+  {
+    "name": "socat",
+    "description": "Multipurpose relay for bidirectional data transfer between two independent data channels.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install socat -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "network",
+    "tags": ["relay", "proxy", "cli"]
+  },
+  {
+    "name": "openssh-server",
+    "description": "Secure shell server for remote login and command execution.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install openssh-server -y", "dependencies": []}
+    },
+    "platforms": ["linux"],
+    "category": "network",
+    "tags": ["ssh", "remote", "server"]
+  },
+  {
+    "name": "ufw",
+    "description": "Uncomplicated Firewall — user-friendly front-end for managing iptables.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install ufw -y", "dependencies": []}
+    },
+    "platforms": ["linux"],
+    "category": "network",
+    "tags": ["firewall", "security", "iptables"]
+  }
+]

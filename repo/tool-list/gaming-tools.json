@@ -1,0 +1,163 @@
+[
+  {
+    "name": "Godot",
+    "description": "Free and open source 2D and 3D game engine.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install godot3 -y", "dependencies": []},
+      "binary": {"command": "curl -LO https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_linux.x86_64.zip && unzip Godot_v4.3-stable_linux.x86_64.zip && sudo mv Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot && rm -f Godot_v4.3-stable_linux.x86_64.zip", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["engine", "2d", "3d"]
+  },
+  {
+    "name": "Blender",
+    "description": "Free and open source 3D creation suite for modeling, animation, rendering.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install blender -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["3d", "modeling", "animation"]
+  },
+  {
+    "name": "Unity Hub",
+    "description": "Management tool for installing and managing Unity Editor versions.",
+    "install_methods": {
+      "binary": {"command": "curl -LO https://public-cdn.cloud.unity3d.com/hub/prod/UnityHub.AppImage && chmod +x UnityHub.AppImage && sudo mv UnityHub.AppImage /usr/local/bin/unity-hub", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["engine", "3d", "2d"]
+  },
+  {
+    "name": "GDevelop",
+    "description": "Open-source, cross-platform game engine designed for everyone.",
+    "install_methods": {
+      "binary": {"command": "curl -LO https://github.com/4ian/GDevelop/releases/download/v5.4.213/GDevelop-5-Setup-5.4.213.exe", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["no-code", "2d", "beginner"]
+  },
+  {
+    "name": "Defold",
+    "description": "Completely free to use game engine for development of desktop, mobile and web games.",
+    "install_methods": {
+      "binary": {"command": "curl -LO https://github.com/defold/defold/releases/download/1.9.2/Defold-x86_64-linux.zip && unzip Defold-x86_64-linux.zip && sudo mv Defold /usr/local/bin/defold", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["2d", "3d", "mobile"]
+  },
+  {
+    "name": "Bevy",
+    "description": "Data-driven game engine built in Rust using the ECS pattern.",
+    "install_methods": {
+      "cargo": {"command": "cargo install bevy_cli", "dependencies": ["rust"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["rust", "ecs", "data-driven"]
+  },
+  {
+    "name": "love2d",
+    "description": "Framework for making 2D games in Lua.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install love -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["lua", "2d", "framework"]
+  },
+  {
+    "name": "Tiled",
+    "description": "Flexible level editor for tile-based games.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install tiled -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["editor", "level-design", "tiles"]
+  },
+  {
+    "name": "Aseprite",
+    "description": "Animated sprite editor and pixel art tool.",
+    "install_methods": {
+      "binary": {"command": "curl -LO https://github.com/aseprite/aseprite/releases/download/v1.3.8.1/Aseprite-v1.3.8.1-Source.zip", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["pixel-art", "sprite", "animation"]
+  },
+  {
+    "name": "OBS Studio",
+    "description": "Free and open source software for video recording and live streaming.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install obs-studio -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["streaming", "recording", "broadcast"]
+  },
+  {
+    "name": "Wine",
+    "description": "Compatibility layer capable of running Windows applications on Linux.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install wine -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "gamedev",
+    "tags": ["windows", "compatibility", "games"]
+  },
+  {
+    "name": "Lutris",
+    "description": "Open source gaming platform for GNU/Linux.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install lutris -y", "dependencies": ["wine"]}
+    },
+    "platforms": ["linux"],
+    "category": "gamedev",
+    "tags": ["launcher", "games", "wine"]
+  },
+  {
+    "name": "RetroArch",
+    "description": "Frontend for emulators, game engines and media players.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install retroarch -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["emulator", "retro", "multi-system"]
+  },
+  {
+    "name": "Dolphin Emulator",
+    "description": "Emulator for Nintendo GameCube and Wii.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install dolphin-emu -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["emulator", "gamecube", "wii"]
+  },
+  {
+    "name": "Steam",
+    "description": "Digital distribution service for games.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install steam -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["store", "games", "distribution"]
+  },
+  {
+    "name": "itch.io",
+    "description": "Platform for indie game distribution and community.",
+    "install_methods": {
+      "binary": {"command": "curl -LO https://itch.io/app/download?platform=linux && tar -xzf itch-setup && sudo mv itch-setup /usr/local/bin/itch", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "gamedev",
+    "tags": ["indie", "store", "games"]
+  }
+]

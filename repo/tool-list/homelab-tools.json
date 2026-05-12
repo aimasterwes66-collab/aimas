@@ -1,0 +1,162 @@
+[
+  {
+    "name": "Jellyfin",
+    "description": "Free Software Media System for managing and streaming media.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name jellyfin -p 8096:8096 -v jellyfin-config:/config -v jellyfin-cache:/cache jellyfin/jellyfin:latest", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["media-server", "streaming", "movies"]
+  },
+  {
+    "name": "Plex",
+    "description": "Client-server media player system and software suite.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name plex -p 32400:32400 -v plex-config:/config plexinc/pms-docker:latest", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["media-server", "streaming", "tv"]
+  },
+  {
+    "name": "Nextcloud",
+    "description": "Self-hosted cloud storage and collaboration platform.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name nextcloud -p 8080:80 -v nextcloud:/var/www/html nextcloud:latest", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["cloud", "storage", "collaboration"]
+  },
+  {
+    "name": "Immich",
+    "description": "Self-hosted photo and video backup solution.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name immich-server -p 2283:3001 ghcr.io/immich-app/immich-server:release", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["photos", "backup", "self-hosted"]
+  },
+  {
+    "name": "Home Assistant",
+    "description": "Open source home automation platform for controlling smart devices.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name homeassistant -p 8123:8123 -v hass-config:/config homeassistant/home-assistant:latest", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["home-automation", "iot", "smart-home"]
+  },
+  {
+    "name": "Pi-hole",
+    "description": "Network-wide ad blocking via DNS sinkhole.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name pihole -p 53:53/tcp -p 53:53/udp -p 80:80 -v pihole:/etc/pihole pihole/pihole:latest", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux"],
+    "category": "homelab",
+    "tags": ["dns", "ad-block", "privacy"]
+  },
+  {
+    "name": "Portainer",
+    "description": "Lightweight management UI for Docker and Kubernetes environments.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name portainer -p 8000:8000 -p 9443:9443 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["docker", "ui", "management"]
+  },
+  {
+    "name": "Traefik",
+    "description": "Modern HTTP reverse proxy and load balancer for microservices.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name traefik -p 80:80 -p 443:443 -v /var/run/docker.sock:/var/run/docker.sock traefik:v3.0", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["proxy", "reverse-proxy", "ssl"]
+  },
+  {
+    "name": "Nginx Proxy Manager",
+    "description": "Easy-to-use web interface for managing Nginx proxy hosts.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name npm -p 80:80 -p 81:81 -p 443:443 -v npm-data:/data jc21/nginx-proxy-manager:latest", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["proxy", "ui", "ssl"]
+  },
+  {
+    "name": "Uptime Kuma",
+    "description": "Self-hosted monitoring tool for tracking service uptime and health.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name uptime-kuma -p 3001:3001 -v uptime-kuma:/app/data louislam/uptime-kuma:1", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["monitoring", "uptime", "alerts"]
+  },
+  {
+    "name": "Grafana",
+    "description": "Open source analytics and interactive visualization web application.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name grafana -p 3000:3000 -v grafana-storage:/var/lib/grafana grafana/grafana:latest", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["monitoring", "metrics", "dashboard"]
+  },
+  {
+    "name": "Prometheus",
+    "description": "Open source monitoring and alerting toolkit for metrics collection.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name prometheus -p 9090:9090 -v prometheus-data:/prometheus prom/prometheus:latest", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["monitoring", "metrics", "time-series"]
+  },
+  {
+    "name": "Syncthing",
+    "description": "Continuous file synchronization program for peer-to-peer file sync.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install syncthing -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["sync", "p2p", "backup"]
+  },
+  {
+    "name": "MinIO",
+    "description": "High-performance, S3 compatible object storage server.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name minio -p 9000:9000 -p 9001:9001 -v minio-data:/data minio/minio:latest server /data --console-address \":9001\"", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["storage", "s3", "object-store"]
+  },
+  {
+    "name": "Paperless-ngx",
+    "description": "Document management system that transforms physical documents into searchable online archive.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name paperless -p 8000:8000 -v paperless-data:/usr/src/paperless/media ghcr.io/paperless-ngx/paperless-ngx:latest", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["documents", "ocr", "archive"]
+  },
+  {
+    "name": "Vaultwarden",
+    "description": "Unofficial Bitwarden compatible server written in Rust for self-hosting passwords.",
+    "install_methods": {
+      "docker": {"command": "docker run -d --name vaultwarden -p 80:80 -v vaultwarden-data:/data vaultwarden/server:latest", "dependencies": ["docker"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "homelab",
+    "tags": ["passwords", "security", "bitwarden"]
+  }
+]

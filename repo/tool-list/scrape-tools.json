@@ -1,0 +1,163 @@
+[
+  {
+    "name": "Scrapy",
+    "description": "Fast high-level web crawling and scraping framework.",
+    "install_methods": {
+      "uv": {"command": "uv pip install scrapy", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["crawler", "framework", "python"]
+  },
+  {
+    "name": "Selenium",
+    "description": "Browser automation for web scraping and testing.",
+    "install_methods": {
+      "uv": {"command": "uv pip install selenium", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["browser", "automation", "testing"]
+  },
+  {
+    "name": "Playwright",
+    "description": "Reliable end-to-end testing and web scraping with browser control.",
+    "install_methods": {
+      "uv": {"command": "uv pip install playwright && playwright install", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["browser", "automation", "testing", "scraping"]
+  },
+  {
+    "name": "BeautifulSoup4",
+    "description": "Python library for pulling data out of HTML and XML files.",
+    "install_methods": {
+      "uv": {"command": "uv pip install beautifulsoup4", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["html", "parser", "python"]
+  },
+  {
+    "name": "httpx",
+    "description": "Next-generation HTTP client for Python with async support.",
+    "install_methods": {
+      "uv": {"command": "uv pip install httpx", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["http", "client", "async"]
+  },
+  {
+    "name": "aiohttp",
+    "description": "Async HTTP client/server framework for asyncio and Python.",
+    "install_methods": {
+      "uv": {"command": "uv pip install aiohttp", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["http", "async", "server"]
+  },
+  {
+    "name": "yt-dlp",
+    "description": "Feature-rich command-line audio/video downloader.",
+    "install_methods": {
+      "pipx": {"command": "pipx install yt-dlp", "dependencies": ["pipx"]},
+      "binary": {"command": "sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp && sudo chmod a+rx /usr/local/bin/yt-dlp", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["video", "downloader", "youtube"]
+  },
+  {
+    "name": "gallery-dl",
+    "description": "Command-line program to download image galleries and collections.",
+    "install_methods": {
+      "pipx": {"command": "pipx install gallery-dl", "dependencies": ["pipx"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["images", "downloader", "gallery"]
+  },
+  {
+    "name": "newspaper3k",
+    "description": "Article scraping and curation library for Python.",
+    "install_methods": {
+      "uv": {"command": "uv pip install newspaper3k", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["news", "article", "nlp"]
+  },
+  {
+    "name": "trafilatura",
+    "description": "Python package and command-line tool for web scraping with focus on text.",
+    "install_methods": {
+      "uv": {"command": "uv pip install trafilatura", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["text", "extraction", "nlp"]
+  },
+  {
+    "name": "brozzler",
+    "description": "Distributed web crawling with browser-based behavior.",
+    "install_methods": {
+      "uv": {"command": "uv pip install brozzler", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "scraper",
+    "tags": ["crawler", "distributed", "archive"]
+  },
+  {
+    "name": "hakrawler",
+    "description": "Fast web crawler designed for easy discovery of endpoints and assets.",
+    "install_methods": {
+      "go": {"command": "go install github.com/hakluke/hakrawler@latest", "dependencies": ["go"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["crawler", "security", "recon"]
+  },
+  {
+    "name": "waybackpack",
+    "description": "Command-line tool for downloading entire archived websites from the Wayback Machine.",
+    "install_methods": {
+      "uv": {"command": "uv pip install waybackpack", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["archive", "wayback", "history"]
+  },
+  {
+    "name": "fake-useragent",
+    "description": "Up-to-date simple fake user agent string library.",
+    "install_methods": {
+      "uv": {"command": "uv pip install fake-useragent", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["ua", "spoofing", "headers"]
+  },
+  {
+    "name": "rclone",
+    "description": "rsync for cloud storage — sync files to/from cloud providers.",
+    "install_methods": {
+      "script": {"command": "curl https://rclone.org/install.sh | sudo bash", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["sync", "cloud", "backup"]
+  },
+  {
+    "name": "wget",
+    "description": "Network utility to retrieve files from the web using HTTP, HTTPS, FTP.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install wget -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "scraper",
+    "tags": ["download", "http", "cli"]
+  }
+]

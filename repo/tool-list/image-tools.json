@@ -1,0 +1,162 @@
+[
+  {
+    "name": "GIMP",
+    "description": "GNU Image Manipulation Program for photo retouching, composition, and authoring.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install gimp -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["editor", "photo", "raster"]
+  },
+  {
+    "name": "Inkscape",
+    "description": "Professional vector graphics editor for creating and editing SVG files.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install inkscape -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["vector", "svg", "illustration"]
+  },
+  {
+    "name": "Krita",
+    "description": "Professional free and open source painting program made by artists.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install krita -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["painting", "digital-art", "concept-art"]
+  },
+  {
+    "name": "Darktable",
+    "description": "Open source photography workflow application and raw developer.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install darktable -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["raw", "photography", "editing"]
+  },
+  {
+    "name": "RawTherapee",
+    "description": "Free cross-platform raw image processing program.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install rawtherapee -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["raw", "photography", "editor"]
+  },
+  {
+    "name": "Shotwell",
+    "description": "Personal photo manager for GNOME.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install shotwell -y", "dependencies": []}
+    },
+    "platforms": ["linux"],
+    "category": "image",
+    "tags": ["photo-manager", "organizer", "gnome"]
+  },
+  {
+    "name": "digiKam",
+    "description": "Advanced open-source digital photo management application.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install digikam -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["photo-manager", "metadata", "tags"]
+  },
+  {
+    "name": "ImageMagick",
+    "description": "Software suite for displaying, converting, and editing raster images.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install imagemagick -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["cli", "conversion", "batch"]
+  },
+  {
+    "name": "Pillow",
+    "description": "Python Imaging Library fork for opening, manipulating, and saving image files.",
+    "install_methods": {
+      "uv": {"command": "uv pip install Pillow", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["python", "library", "manipulation"]
+  },
+  {
+    "name": "ComfyUI",
+    "description": "Powerful and modular diffusion model GUI with a graph/nodes interface.",
+    "install_methods": {
+      "uv": {"command": "uv pip install comfyui", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["ai", "diffusion", "stable-diffusion"]
+  },
+  {
+    "name": "InvokeAI",
+    "description": "Creative engine for Stable Diffusion with a modern web UI.",
+    "install_methods": {
+      "uv": {"command": "uv pip install invokeai", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["ai", "diffusion", "stable-diffusion"]
+  },
+  {
+    "name": "Fooocus",
+    "description": "Focus on prompting and generating images with Stable Diffusion XL.",
+    "install_methods": {
+      "uv": {"command": "uv pip install fooocus", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["ai", "diffusion", "sxl"]
+  },
+  {
+    "name": "ExifTool",
+    "description": "Platform-independent Perl library for reading, writing, and editing metadata.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install libimage-exiftool-perl -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["metadata", "exif", "cli"]
+  },
+  {
+    "name": "pngquant",
+    "description": "Command-line utility for lossy compression of PNG images.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install pngquant -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["compression", "optimization", "cli"]
+  },
+  {
+    "name": "jpegoptim",
+    "description": "Utility to optimize and compress JPEG files without losing quality.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install jpegoptim -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["compression", "optimization", "cli"]
+  },
+  {
+    "name": "G'MIC",
+    "description": "Full-featured open-source framework for image processing with hundreds of filters.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install gmic -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "image",
+    "tags": ["filters", "processing", "plugin"]
+  }
+]

@@ -1,0 +1,162 @@
+[
+  {
+    "name": "Obsidian",
+    "description": "Powerful knowledge base on top of a local folder of plain text Markdown files.",
+    "install_methods": {
+      "binary": {"command": "curl -LO https://github.com/obsidianmd/obsidian-releases/releases/download/v1.6.7/Obsidian-1.6.7.AppImage && chmod +x Obsidian-1.6.7.AppImage && sudo mv Obsidian-1.6.7.AppImage /usr/local/bin/obsidian", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "productivity",
+    "tags": ["notes", "markdown", "knowledge-base"]
+  },
+  {
+    "name": "Logseq",
+    "description": "Privacy-first, open-source platform for knowledge management and collaboration.",
+    "install_methods": {
+      "binary": {"command": "curl -LO https://github.com/logseq/logseq/releases/download/0.10.9/Logseq-linux-x64-0.10.9.AppImage && chmod +x Logseq-linux-x64-0.10.9.AppImage && sudo mv Logseq-linux-x64-0.10.9.AppImage /usr/local/bin/logseq", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "productivity",
+    "tags": ["notes", "graph", "outliner"]
+  },
+  {
+    "name": "Joplin",
+    "description": "Open source note-taking and to-do application with synchronization.",
+    "install_methods": {
+      "binary": {"command": "wget -O - https://raw.githubusercontent.com/laurent22/joplin/dev/Joplin_install_and_update.sh | bash", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "productivity",
+    "tags": ["notes", "sync", "todo"]
+  },
+  {
+    "name": "Standard Notes",
+    "description": "End-to-end encrypted notes app with focus on privacy and longevity.",
+    "install_methods": {
+      "binary": {"command": "curl -LO https://github.com/standardnotes/app/releases/download/%40standardnotes%40desktop%403.195.0/standard-notes-3.195.0-linux-x86_64.AppImage && chmod +x standard-notes-3.195.0-linux-x86_64.AppImage && sudo mv standard-notes-3.195.0-linux-x86_64.AppImage /usr/local/bin/standard-notes", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "productivity",
+    "tags": ["notes", "encrypted", "privacy"]
+  },
+  {
+    "name": "Zettlr",
+    "description": "Markdown editor for the 21st century with Zettelkasten support.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install zettlr -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "productivity",
+    "tags": ["markdown", "editor", "zettelkasten"]
+  },
+  {
+    "name": "Taskwarrior",
+    "description": "Open source, command-line task management utility.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install taskwarrior -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "productivity",
+    "tags": ["todo", "cli", "gtg"]
+  },
+  {
+    "name": "Timewarrior",
+    "description": "Command-line time tracking utility that integrates with Taskwarrior.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install timewarrior -y", "dependencies": ["taskwarrior"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "productivity",
+    "tags": ["time-tracking", "cli", "productivity"]
+  },
+  {
+    "name": "hledger",
+    "description": "Plain text accounting software for tracking finances.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install hledger -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "productivity",
+    "tags": ["accounting", "finance", "plaintext"]
+  },
+  {
+    "name": "Calcurse",
+    "description": "Text-based calendar and scheduling application.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install calcurse -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "productivity",
+    "tags": ["calendar", "scheduling", "tui"]
+  },
+  {
+    "name": "Newsboat",
+    "description": "Open-source RSS/Atom feed reader for the text console.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install newsboat -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "productivity",
+    "tags": ["rss", "news", "tui"]
+  },
+  {
+    "name": "WeeChat",
+    "description": "Fast, light and extensible chat client supporting IRC and other protocols.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install weechat -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "productivity",
+    "tags": ["irc", "chat", "tui"]
+  },
+  {
+    "name": "tldr",
+    "description": "Simplified and community-driven man pages.",
+    "install_methods": {
+      "pipx": {"command": "pipx install tldr", "dependencies": ["pipx"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "productivity",
+    "tags": ["docs", "cheatsheet", "cli"]
+  },
+  {
+    "name": "cheat",
+    "description": "Create and view interactive cheatsheets on the command-line.",
+    "install_methods": {
+      "go": {"command": "go install github.com/cheat/cheat/cmd/cheat@latest", "dependencies": ["go"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "productivity",
+    "tags": ["cheatsheet", "docs", "cli"]
+  },
+  {
+    "name": "z",
+    "description": "Tracks your most used directories for quick navigation (zoxide superset).",
+    "install_methods": {
+      "script": {"command": "curl -sS https://raw.githubusercontent.com/rupa/z/master/z.sh -o ~/.local/bin/z.sh && chmod +x ~/.local/bin/z.sh", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "productivity",
+    "tags": ["navigation", "shell", "cd"]
+  },
+  {
+    "name": "direnv",
+    "description": "Environment switcher for the shell that loads/unloads env vars per directory.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install direnv -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "productivity",
+    "tags": ["environment", "shell", "dotenv"]
+  },
+  {
+    "name": "stow",
+    "description": "Symlink farm manager for dotfiles and software package management.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install stow -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "productivity",
+    "tags": ["dotfiles", "symlink", "config"]
+  }
+]

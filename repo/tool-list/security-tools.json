@@ -1,0 +1,162 @@
+[
+  {
+    "name": "Metasploit",
+    "description": "Penetration testing framework for developing and executing exploit code.",
+    "install_methods": {
+      "script": {"command": "curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "security",
+    "tags": ["pentest", "exploit", "framework"]
+  },
+  {
+    "name": "Burp Suite Community",
+    "description": "Platform for performing security testing of web applications.",
+    "install_methods": {
+      "binary": {"command": "curl -LO https://portswigger.net/burp/releases/download?product=community&version=2024.12.1&type=Linux && sudo dpkg -i burpsuite_community_linux_v2024_12_1.sh", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "security",
+    "tags": ["web", "pentest", "proxy"]
+  },
+  {
+    "name": "OWASP ZAP",
+    "description": "Open source web application security scanner and proxy.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install zaproxy -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "security",
+    "tags": ["web", "scanner", "owasp"]
+  },
+  {
+    "name": "sqlmap",
+    "description": "Open source penetration testing tool for automating SQL injection.",
+    "install_methods": {
+      "uv": {"command": "uv pip install sqlmap", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "security",
+    "tags": ["sql-injection", "pentest", "database"]
+  },
+  {
+    "name": "Nikto",
+    "description": "Web server scanner for finding dangerous files, outdated software, and vulnerabilities.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install nikto -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "security",
+    "tags": ["web", "scanner", "vulnerability"]
+  },
+  {
+    "name": "dirb",
+    "description": "Web Content Scanner that looks for existing and hidden web objects.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install dirb -y", "dependencies": []}
+    },
+    "platforms": ["linux"],
+    "category": "security",
+    "tags": ["web", "brute-force", "directories"]
+  },
+  {
+    "name": "gobuster",
+    "description": "Tool used to brute-force URIs, DNS subdomains, and virtual host names.",
+    "install_methods": {
+      "go": {"command": "go install github.com/OJ/gobuster/v3@latest", "dependencies": ["go"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "security",
+    "tags": ["brute-force", "directories", "dns"]
+  },
+  {
+    "name": "hydra",
+    "description": "Very fast network logon cracker supporting numerous protocols.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install hydra -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "security",
+    "tags": ["brute-force", "password", "cracker"]
+  },
+  {
+    "name": "John the Ripper",
+    "description": "Password cracking tool supporting hundreds of hash and cipher types.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install john -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "security",
+    "tags": ["password", "cracker", "hash"]
+  },
+  {
+    "name": "Hashcat",
+    "description": "World's fastest password recovery utility supporting GPU acceleration.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install hashcat -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "security",
+    "tags": ["password", "gpu", "cracker"]
+  },
+  {
+    "name": "aircrack-ng",
+    "description": "Complete suite of tools for auditing wireless networks.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install aircrack-ng -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "security",
+    "tags": ["wireless", "wifi", "auditing"]
+  },
+  {
+    "name": "wireshark",
+    "description": "Network protocol analyzer for network troubleshooting and analysis.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install wireshark -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "security",
+    "tags": ["packet-capture", "protocol", "analysis"]
+  },
+  {
+    "name": "tcpdump",
+    "description": "Powerful command-line packet analyzer for network debugging.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install tcpdump -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "security",
+    "tags": ["packet-capture", "cli", "network"]
+  },
+  {
+    "name": "lynis",
+    "description": "Security auditing tool for Unix-based systems.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install lynis -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "security",
+    "tags": ["audit", "hardening", "compliance"]
+  },
+  {
+    "name": "rkhunter",
+    "description": "Rootkit and backdoor scanner for Unix-like systems.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install rkhunter -y", "dependencies": []}
+    },
+    "platforms": ["linux"],
+    "category": "security",
+    "tags": ["rootkit", "malware", "scanner"]
+  },
+  {
+    "name": "chkrootkit",
+    "description": "Tool for locally checking for signs of a rootkit infection.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install chkrootkit -y", "dependencies": []}
+    },
+    "platforms": ["linux"],
+    "category": "security",
+    "tags": ["rootkit", "malware", "scanner"]
+  }
+]

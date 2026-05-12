@@ -1,0 +1,162 @@
+[
+  {
+    "name": "Audacity",
+    "description": "Free, open-source, cross-platform audio software for multi-track recording and editing.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install audacity -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "audio",
+    "tags": ["daw", "editor", "recording"]
+  },
+  {
+    "name": "LMMS",
+    "description": "Free cross-platform digital audio workstation for music production.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install lmms -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "audio",
+    "tags": ["daw", "synth", "music"]
+  },
+  {
+    "name": "Ardour",
+    "description": "Hard disk recorder and digital audio workstation application.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install ardour -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos"],
+    "category": "audio",
+    "tags": ["daw", "recording", "mixing"]
+  },
+  {
+    "name": "SuperCollider",
+    "description": "Platform for audio synthesis and algorithmic composition.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install supercollider supercollider-ide -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "audio",
+    "tags": ["synthesis", "programming", "live-coding"]
+  },
+  {
+    "name": "Sonic Pi",
+    "description": "Code-based music creation and performance tool.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install sonic-pi -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "audio",
+    "tags": ["live-coding", "education", "synth"]
+  },
+  {
+    "name": "Hydrogen",
+    "description": "Advanced drum machine for GNU/Linux.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install hydrogen -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "audio",
+    "tags": ["drums", "sequencer", "beat"]
+  },
+  {
+    "name": "MuseScore",
+    "description": "Music notation and composition software.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install musescore -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "audio",
+    "tags": ["notation", "sheet-music", "composer"]
+  },
+  {
+    "name": "Rosegarden",
+    "description": "Well-rounded audio and MIDI sequencer, score editor, and music composition tool.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install rosegarden -y", "dependencies": []}
+    },
+    "platforms": ["linux"],
+    "category": "audio",
+    "tags": ["midi", "sequencer", "notation"]
+  },
+  {
+    "name": "Mixxx",
+    "description": "Free DJ software for performing live mixes.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install mixxx -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "audio",
+    "tags": ["dj", "mixer", "live"]
+  },
+  {
+    "name": "Helm",
+    "description": "Free polyphonic synthesizer with a powerful modulation system.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install helm -y", "dependencies": []}
+    },
+    "platforms": ["linux"],
+    "category": "audio",
+    "tags": ["synth", "vst", "modular"]
+  },
+  {
+    "name": "ZynAddSubFX",
+    "description": "Fully featured open source software synthesizer with extensive sound design.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install zynaddsubfx -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "audio",
+    "tags": ["synth", "subtractive", "additive"]
+  },
+  {
+    "name": "Cecilia",
+    "description": "Audio signal processing environment for sound design and music composition.",
+    "install_methods": {
+      "uv": {"command": "uv pip install cecilia", "dependencies": ["uv"]}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "audio",
+    "tags": ["dsp", "sound-design", "processing"]
+  },
+  {
+    "name": "SoX",
+    "description": "Swiss Army knife of sound processing utilities.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install sox libsox-fmt-all -y", "dependencies": []}
+    },
+    "platforms": ["linux", "macos", "windows"],
+    "category": "audio",
+    "tags": ["cli", "processing", "conversion"]
+  },
+  {
+    "name": "Spek",
+    "description": "Acoustic spectrum analyzer for audio files.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install spek -y", "dependencies": []}
+    },
+    "platforms": ["linux"],
+    "category": "audio",
+    "tags": ["spectrum", "analyzer", "visualization"]
+  },
+  {
+    "name": "Qtractor",
+    "description": "Audio/MIDI multi-track sequencer application written in C++ with Qt framework.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install qtractor -y", "dependencies": []}
+    },
+    "platforms": ["linux"],
+    "category": "audio",
+    "tags": ["daw", "midi", "qt"]
+  },
+  {
+    "name": "PipeWire",
+    "description": "Server and user space API to handle multimedia pipelines in Linux.",
+    "install_methods": {
+      "apt": {"command": "sudo apt install pipewire pipewire-pulse wireplumber -y", "dependencies": []}
+    },
+    "platforms": ["linux"],
+    "category": "audio",
+    "tags": ["audio-server", "pulse", "jack"]
+  }
+]
